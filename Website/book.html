@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Book Appointment | Ntobeko Beauty Studio</title>
+  <link rel="stylesheet" href="Styling/homepage.css" />
+  <script defer src="Scripts/booking.js"></script>
+</head>
+<body>
+
+  <header class="header">
+    <h1>Book Your Appointment</h1>
+    <p>Choose your preferred date and time below.</p>
+  </header>
+
+  <main class="content">
+    <form class="booking-form">
+      <label for="name">Full Name:</label><br />
+      <input type="text" id="name" name="name" required /><br /><br />
+
+      <label for="email">Email Address:</label><br />
+      <input type="email" id="email" name="email" required /><br /><br />
+
+      <label for="service">Select Service:</label><br />
+      <select id="service" name="service" required>
+        <option value="">-- Choose a Service --</option>
+        <option>Wash, Cut & Style</option>
+        <option>Hair Coloring</option>
+        <option>Silk Press</option>
+        <option>Braiding</option>
+        <option>Deep Conditioning</option>
+      </select><br /><br />
+
+      <label for="date">Select Date:</label><br />
+      <input type="date" id="date" name="date" required /><br /><br />
+
+      <label for="time">Select Time:</label><br />
+      <input type="time" id="time" name="time" required /><br /><br />
+
+      <button type="submit"><h3>Confirm Booking</h3></button>
+    </form>
+  </main>
+
+</body>
+</html>
