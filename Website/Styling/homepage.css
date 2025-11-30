@@ -6,6 +6,26 @@ body {
   color: white;
   margin: 0;
   padding: 0;
+  
+}
+
+/*This code applies the transistion effect */
+@keyframes transitionCon {
+
+  from {
+    opacity: 0;
+    transform: rotateX(-10deg);
+  }
+  to {
+     opacity: 1;
+    transform: rotateX(0);
+  }
+  
+}
+
+
+.MAIN {
+  animation: transitionCon 1s;
 }
 
 /* Header and Content centered & full width */
@@ -198,4 +218,11 @@ figcaption {
     flex-direction: column;
     text-align: center;
   }
+}
+
+.booking-form {
+
+  border: 2px solid gold;
+  border-radius: 10px;
+  padding: 10px;
 }
