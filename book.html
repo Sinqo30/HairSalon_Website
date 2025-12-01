@@ -6,7 +6,7 @@
 <title>Book an Appointment | Ntobeko Beauty Studio</title>
 <link rel="stylesheet" href="Styling.css">
 
-<!-- Ionicons -->
+<!-- Ionicons for social icons -->
 <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 
@@ -22,44 +22,53 @@
     <a href="book.html">Book</a>
     <a href="contact.html">Contact</a>
     <a href="https://www.instagram.com/hairbypercy/" target="_blank" aria-label="Instagram">
-    <ion-icon class="insta-logo" name="logo-instagram"></ion-icon>
+      <ion-icon class="insta-logo" name="logo-instagram"></ion-icon>
     </a>
-    <a href="https://wa.me/2782216006"  target="_blank" aria-label="WhatsApp"><ion-icon name="logo-whatsapp"></ion-icon></a>
+    <a href="https://wa.me/2782216006"  target="_blank" aria-label="WhatsApp">
+      <ion-icon name="logo-whatsapp"></ion-icon>
+    </a>
   </nav>
 </header>
-<div class="main">
-<center><h1 class="title">Book an Appointment</h1></center>
 
-<section class="booking-form">
-  <h2>Schedule Your Visit</h2>
-  <form id="bookingForm">
-    <label for="name">Full Name</label>
-    <input type="text" id="name" name="name" required>
-    <label for="email">Email</label>
-    <input type="email" id="email" name="email" required>
-    <label for="service">Select Service</label>
-    <select id="service" name="service" required>
-      <option value="">-- Choose a service --</option>
-      <option value="Hair Styling">Hair Styling</option>
-      <option value="Hair Coloring">Hair Coloring</option>
-      <option value="Braiding & Protective Styles">Braiding & Protective Styles</option>
-      <option value="Extensions">Hair Extensions</option>
-      <option value="Special Occasion Styling">Special Occasion Styling</option>
-    </select>
-    <label for="date">Select Date</label>
-    <input type="date" id="date" name="date" required>
-    <label for="time">Select Time</label>
-    <select id="time" name="time" required>
-      <option value="">-- Select Time --</option>
-    </select>
-    <button type="submit">Book Appointment</button>
-    <p id="statusMessage"></p>
-  </form>
-</section>
+<div class="main">
+  <center><h1 class="title">Book an Appointment</h1></center>
+
+  <section class="booking-form">
+    <h2>Schedule Your Visit</h2>
+    <form id="bookingForm">
+      <label for="name">Full Name</label>
+      <input type="text" id="name" name="name" required>
+      
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" required>
+      
+      <label for="service">Select Service</label>
+      <select id="service" name="service" required>
+        <option value="">-- Choose a service --</option>
+        <option value="Hair Styling">Hair Styling</option>
+        <option value="Hair Coloring">Hair Coloring</option>
+        <option value="Braiding & Protective Styles">Braiding & Protective Styles</option>
+        <option value="Extensions">Hair Extensions</option>
+        <option value="Special Occasion Styling">Special Occasion Styling</option>
+      </select>
+      
+      <label for="date">Select Date</label>
+      <input type="date" id="date" name="date" required>
+      
+      <label for="time">Select Time</label>
+      <select id="time" name="time" required>
+        <option value="">-- Select Time --</option>
+      </select>
+      
+      <button type="submit">Book Appointment</button>
+      <p id="statusMessage"></p>
+    </form>
+  </section>
 </div>
+
 <footer>
   <p>© 2025 Ntobeko Beauty Studio</p>
-  <p>Ntobeko Beauty Studio |<a href="https://share.google/iJtZnBtrxPIqFnTWg"> 10 Wessel Road, Rivonia </a>| <a href="tel:078 221 6006">078 221 6006</a> |<a href="mailto:percypmmamoe@gmail.com">percypmmamoe@gmail.com </a></p>
+  <p>Ntobeko Beauty Studio | <a href="#">10 Wessel Road, Rivonia</a> | <a href="tel:0782216006">078 221 6006</a> | <a href="mailto:percypmmamoe@gmail.com">percypmmamoe@gmail</a></p>
 </footer>
 
 </body>
