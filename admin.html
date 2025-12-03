@@ -23,13 +23,47 @@
           <th>Service</th>
           <th>Date</th>
           <th>Time</th>
+          <th>Actions</th>
         </tr>
       </thead>
-      <tbody>
-        <!-- populated by JS -->
-      </tbody>
+      <tbody></tbody>
     </table>
   </div>
+
+  <div class="dashboard-section">
+    <h2>Block Dates/Times</h2>
+    <form id="blockForm">
+      <label>Date:</label>
+      <input type="date" id="blockDate" required>
+      <label>Time (optional):</label>
+      <select id="blockTime">
+        <option value="">-- All Day --</option>
+        <option value="09:00">09:00</option>
+        <option value="10:00">10:00</option>
+        <option value="11:00">11:00</option>
+        <option value="12:00">12:00</option>
+        <option value="13:00">13:00</option>
+        <option value="14:00">14:00</option>
+        <option value="15:00">15:00</option>
+        <option value="16:00">16:00</option>
+      </select>
+      <button type="submit">Block</button>
+    </form>
+
+    <h3>Blocked Dates/Times</h3>
+    <table id="blockedTable">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Date</th>
+          <th>Time</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
   <button id="logoutBtn" class="logout-btn">Logout</button>
 </div>
 
