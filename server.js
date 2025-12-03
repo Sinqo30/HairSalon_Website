@@ -27,8 +27,8 @@ app.use(
     cookie: {
       httpOnly: true,
       sameSite: "lax",
-      maxAge: 1000 * 60 * 60 * 2
-    }
+      maxAge: 1000 * 60 * 60 * 2,
+    },
   })
 );
 
@@ -55,7 +55,6 @@ db.serialize(() => {
     CREATE TABLE IF NOT EXISTS bookings (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       name TEXT,
-      email TEXT,
       service TEXT,
       date TEXT,
       time TEXT
@@ -145,7 +144,7 @@ app.get("/api/bookings/:date", (req, res) => {
 
 // Create Booking
 app.post("/api/book", (req, res) => {
-  const { name, email, service, date, time } = req.body;
+  const { name, service, date, time } = req.body;
   const today = new Date().toISOString().split("T")[0];
   if (date < today) return res.status(400).json({ error: "Cannot book past dates" });
 
@@ -153,8 +152,8 @@ app.post("/api/book", (req, res) => {
     db.get(`SELECT * FROM blocked_slots WHERE date = ? AND time = ?`, [date, time], (err, row2) => {
       if (row1 || row2) return res.status(400).json({ error: "Time already unavailable" });
       db.run(
-        `INSERT INTO bookings (name, email, service, date, time) VALUES (?, ?, ?, ?, ?)`,
-        [name, email, service, date, time],
+        `INSERT INTO bookings (name, service, date, time) VALUES (?, ?, ?, ?)`,
+        [name, service, date, time],
         function(err) {
           if (err) return res.status(500).json({ error: err.message });
           res.json({ success: true, id: this.lastID });
@@ -201,6 +200,24 @@ app.post("/api/delete-booking", mustBeLoggedIn, (req, res) => {
   db.run(`DELETE FROM bookings WHERE id = ?`, [id], (err) => {
     if (err) return res.status(500).json({ error: err.message });
     res.json({ success: true });
+  });
+});
+
+// Change password
+app.post("/api/change-password", mustBeLoggedIn, (req, res) => {
+  const { currentPassword, newPassword } = req.body;
+
+  db.get("SELECT * FROM admin WHERE id = ?", [req.session.admin], (err, admin) => {
+    if (err || !admin) return res.json({ success: false, error: "Admin not found" });
+
+    const valid = bcrypt.compareSync(currentPassword, admin.password);
+    if (!valid) return res.json({ success: false, error: "Current password incorrect" });
+
+    const hashed = bcrypt.hashSync(newPassword, 10);
+    db.run("UPDATE admin SET password = ? WHERE id = ?", [hashed, admin.id], (err) => {
+      if (err) return res.json({ success: false, error: "Failed to update password" });
+      res.json({ success: true });
+    });
   });
 });
 
