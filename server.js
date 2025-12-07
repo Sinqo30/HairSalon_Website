@@ -10,14 +10,14 @@ const path = require("path");
 const cors = require("cors");
 
 const app = express();
-const PORT = process.env.PORT || 5000; // Use Railway's dynamic port if available
+const PORT = process.env.PORT || 5000; // 🔹 Use Railway port if available
 
 // -------------------------------
 // Middleware
 // -------------------------------
 app.use(cors({ origin: true, credentials: true }));
 app.use(express.json());
-app.use(express.static(path.join(__dirname)));
+app.use(express.static(path.join(__dirname))); // serve HTML/CSS/JS files
 
 app.use(
   session({
@@ -74,7 +74,6 @@ db.serialize(() => {
   const defaultUser = "admin";
   const defaultPass = "password123";
   const hashed = bcrypt.hashSync(defaultPass, 10);
-
   db.get(`SELECT * FROM admin WHERE username = ?`, [defaultUser], (err, row) => {
     if (!row) {
       db.run(`INSERT INTO admin (username, password) VALUES (?, ?)`, [defaultUser, hashed]);
@@ -232,5 +231,5 @@ app.post("/api/logout", (req, res) => {
 // START SERVER
 // -------------------------------
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  console.log(`Server running → http://localhost:${PORT} | Railway PORT: ${PORT}`);
 });
