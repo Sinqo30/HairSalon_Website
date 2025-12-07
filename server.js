@@ -10,27 +10,16 @@ const path = require("path");
 const cors = require("cors");
 
 const app = express();
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;  // <-- IMPORTANT for Railway
 
 // -------------------------------
 // Middleware
 // -------------------------------
 app.use(cors({ origin: true, credentials: true }));
 app.use(express.json());
-app.use(express.static(path.join(__dirname)));
 
-app.use(
-  session({
-    secret: "super-secret-key",
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-      httpOnly: true,
-      sameSite: "lax",
-      maxAge: 1000 * 60 * 60 * 2,
-    },
-  })
-);
+// Serve all frontend files from root directory
+app.use(express.static(path.join(__dirname)));
 
 // -------------------------------
 // SQLite Database
@@ -70,10 +59,11 @@ db.serialize(() => {
     )
   `);
 
-  // Ensure default admin exists and reset password
+  // Default admin setup
   const defaultUser = "admin";
   const defaultPass = "password123";
   const hashed = bcrypt.hashSync(defaultPass, 10);
+
   db.get(`SELECT * FROM admin WHERE username = ?`, [defaultUser], (err, row) => {
     if (!row) {
       db.run(`INSERT INTO admin (username, password) VALUES (?, ?)`, [defaultUser, hashed]);
@@ -85,9 +75,7 @@ db.serialize(() => {
   });
 });
 
-// -------------------------------
-// Remove past bookings & blocked slots
-// -------------------------------
+// Remove past bookings
 function cleanOldBookings() {
   const today = new Date().toISOString().split("T")[0];
   db.run(`DELETE FROM bookings WHERE date < ?`, [today]);
@@ -95,13 +83,10 @@ function cleanOldBookings() {
   console.log("Old bookings and blocked slots cleaned.");
 }
 
-// Run cleanup on server start and every 24h
 cleanOldBookings();
 setInterval(cleanOldBookings, 1000 * 60 * 60 * 24);
 
-// -------------------------------
-// Login Middleware
-// -------------------------------
+// Login middleware
 function mustBeLoggedIn(req, res, next) {
   if (!req.session.admin) return res.status(401).json({ error: "Not authorized" });
   next();
@@ -111,46 +96,53 @@ function mustBeLoggedIn(req, res, next) {
 // API ROUTES
 // -------------------------------
 
-// Admin Login
+// Admin login
 app.post("/api/admin-login", (req, res) => {
   const { username, password } = req.body;
   db.get(`SELECT * FROM admin WHERE username = ?`, [username], (err, admin) => {
     if (!admin) return res.json({ success: false });
+
     const valid = bcrypt.compareSync(password, admin.password);
     if (!valid) return res.json({ success: false });
+
     req.session.admin = admin.id;
     res.json({ success: true });
   });
 });
 
-// Get all bookings (admin only)
+// Get all bookings
 app.get("/api/bookings", mustBeLoggedIn, (req, res) => {
   db.all(`SELECT * FROM bookings ORDER BY date, time`, [], (err, rows) => {
     res.json(rows);
   });
 });
 
-// Get booked & blocked times for a specific date
+// Get bookings + blocked for a date
 app.get("/api/bookings/:date", (req, res) => {
   const { date } = req.params;
-  db.all(`SELECT time FROM bookings WHERE date = ?`, [date], (err, bookedRows) => {
-    const bookedTimes = bookedRows.map(r => r.time);
-    db.all(`SELECT time FROM blocked_slots WHERE date = ?`, [date], (err, blockedRows) => {
-      const blockedTimes = blockedRows.map(r => r.time);
+
+  db.all(`SELECT time FROM bookings WHERE date = ?`, [date], (err, booked) => {
+    const bookedTimes = booked.map(r => r.time);
+
+    db.all(`SELECT time FROM blocked_slots WHERE date = ?`, [date], (err, blocked) => {
+      const blockedTimes = blocked.map(r => r.time);
+
       res.json({ bookedTimes, blockedTimes });
     });
   });
 });
 
-// Create Booking
+// Create booking
 app.post("/api/book", (req, res) => {
   const { name, service, date, time } = req.body;
   const today = new Date().toISOString().split("T")[0];
+
   if (date < today) return res.status(400).json({ error: "Cannot book past dates" });
 
   db.get(`SELECT * FROM bookings WHERE date = ? AND time = ?`, [date, time], (err, row1) => {
     db.get(`SELECT * FROM blocked_slots WHERE date = ? AND time = ?`, [date, time], (err, row2) => {
       if (row1 || row2) return res.status(400).json({ error: "Time already unavailable" });
+
       db.run(
         `INSERT INTO bookings (name, service, date, time) VALUES (?, ?, ?, ?)`,
         [name, service, date, time],
@@ -163,14 +155,16 @@ app.post("/api/book", (req, res) => {
   });
 });
 
-// Admin blocks a date/time
+// Block a time slot
 app.post("/api/block", mustBeLoggedIn, (req, res) => {
   const { date, time } = req.body;
   const today = new Date().toISOString().split("T")[0];
+
   if (date < today) return res.status(400).json({ error: "Cannot block past dates" });
 
   db.get(`SELECT * FROM blocked_slots WHERE date = ? AND time = ?`, [date, time], (err, row) => {
     if (row) return res.status(400).json({ error: "Already blocked" });
+
     db.run(`INSERT INTO blocked_slots (date, time) VALUES (?, ?)`, [date, time], function(err) {
       if (err) return res.status(500).json({ error: err.message });
       res.json({ success: true, id: this.lastID });
@@ -178,14 +172,14 @@ app.post("/api/block", mustBeLoggedIn, (req, res) => {
   });
 });
 
-// Get blocked slots (admin)
+// List blocked slots
 app.get("/api/blocked", mustBeLoggedIn, (req, res) => {
   db.all(`SELECT * FROM blocked_slots ORDER BY date, time`, [], (err, rows) => {
     res.json(rows);
   });
 });
 
-// Unblock slot
+// Unblock a slot
 app.post("/api/unblock", mustBeLoggedIn, (req, res) => {
   const { id } = req.body;
   db.run(`DELETE FROM blocked_slots WHERE id = ?`, [id], (err) => {
@@ -208,14 +202,16 @@ app.post("/api/change-password", mustBeLoggedIn, (req, res) => {
   const { currentPassword, newPassword } = req.body;
 
   db.get("SELECT * FROM admin WHERE id = ?", [req.session.admin], (err, admin) => {
-    if (err || !admin) return res.json({ success: false, error: "Admin not found" });
+    if (err || !admin) return res.json({ success: false });
 
     const valid = bcrypt.compareSync(currentPassword, admin.password);
-    if (!valid) return res.json({ success: false, error: "Current password incorrect" });
+    if (!valid) return res.json({ success: false, error: "Incorrect current password" });
 
     const hashed = bcrypt.hashSync(newPassword, 10);
+
     db.run("UPDATE admin SET password = ? WHERE id = ?", [hashed, admin.id], (err) => {
-      if (err) return res.json({ success: false, error: "Failed to update password" });
+      if (err) return res.json({ success: false, error: "Failed to update" });
+
       res.json({ success: true });
     });
   });
@@ -231,5 +227,5 @@ app.post("/api/logout", (req, res) => {
 // START SERVER
 // -------------------------------
 app.listen(PORT, () => {
-  console.log(`Server running → http://localhost:${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });
