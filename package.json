@@ -1,9 +1,13 @@
 {
-  "name": "hair-salon",
+  "name": "hairsalon_website",
   "version": "1.0.0",
+  "description": "Hair Salon Booking System",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
+  },
+  "engines": {
+    "node": "18.x"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
