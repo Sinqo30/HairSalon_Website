@@ -1,8 +1,6 @@
-
 {
-  "name": "ntobeko-booking",
+  "name": "hair-salon",
   "version": "1.0.0",
-  "description": "Booking system for Ntobeko Beauty Studio",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"

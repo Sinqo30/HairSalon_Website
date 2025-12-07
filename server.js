@@ -1,5 +1,5 @@
 // -------------------------------
-// Hair Salon Backend Server (Railway Ready)
+// Hair Salon Backend Server
 // -------------------------------
 
 const express = require("express");
@@ -10,20 +10,15 @@ const path = require("path");
 const cors = require("cors");
 
 const app = express();
-
-// Use Railway dynamic PORT or default 5000
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5000; // Use Railway's dynamic port if available
 
 // -------------------------------
 // Middleware
 // -------------------------------
 app.use(cors({ origin: true, credentials: true }));
 app.use(express.json());
-
-// Serve static files (HTML, CSS, JS) from project root
 app.use(express.static(path.join(__dirname)));
 
-// Session setup
 app.use(
   session({
     secret: "super-secret-key",
@@ -32,7 +27,7 @@ app.use(
     cookie: {
       httpOnly: true,
       sameSite: "lax",
-      maxAge: 1000 * 60 * 60 * 2, // 2 hours
+      maxAge: 1000 * 60 * 60 * 2,
     },
   })
 );
@@ -79,6 +74,7 @@ db.serialize(() => {
   const defaultUser = "admin";
   const defaultPass = "password123";
   const hashed = bcrypt.hashSync(defaultPass, 10);
+
   db.get(`SELECT * FROM admin WHERE username = ?`, [defaultUser], (err, row) => {
     if (!row) {
       db.run(`INSERT INTO admin (username, password) VALUES (?, ?)`, [defaultUser, hashed]);
@@ -233,15 +229,8 @@ app.post("/api/logout", (req, res) => {
 });
 
 // -------------------------------
-// Catch-all: serve index.html for React/HTML pages
-// -------------------------------
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "index.html"));
-});
-
-// -------------------------------
 // START SERVER
 // -------------------------------
 app.listen(PORT, () => {
-  console.log(`Server running → http://localhost:${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });
