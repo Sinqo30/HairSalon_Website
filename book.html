@@ -11,13 +11,13 @@
 
 <script defer src="booking.js"></script>
 
-<!-- Prevent Sunday bookings -->
+<!-- Prevent Sundays -->
 <script>
 document.addEventListener("DOMContentLoaded", () => {
   const dateInput = document.getElementById("date");
   dateInput.addEventListener("change", () => {
-    const date = new Date(dateInput.value + "T00:00:00");
-    if (date.getDay() === 0) {
+    const d = new Date(dateInput.value + "T00:00:00");
+    if (d.getDay() === 0) {
       alert("Ntobeko Beauty Studio is closed on Sundays.");
       dateInput.value = "";
     }
@@ -37,9 +37,8 @@ document.addEventListener("DOMContentLoaded", () => {
     <a href="contact.html">Contact</a>
 
     <a href="https://www.instagram.com/hairbypercy/" target="_blank">
-      <ion-icon class="insta-logo" name="logo-instagram"></ion-icon>
+      <ion-icon name="logo-instagram"></ion-icon>
     </a>
-
     <a href="https://wa.me/2782216006" target="_blank">
       <ion-icon name="logo-whatsapp"></ion-icon>
     </a>
@@ -54,15 +53,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
     <form id="bookingForm">
 
-      <label for="name">Full Name</label>
-      <input type="text" id="name" name="name" required>
+      <label>Full Name</label>
+      <input type="text" id="name" required>
 
-      <label for="email">Email</label>
-      <input type="email" id="email" name="email" required>
+      <label>Email</label>
+      <input type="email" id="email" required>
 
-      <label for="service">Select Service</label>
-      <select id="service" name="service" required>
-        <option value="">-- Choose a service --</option>
+      <label>Service</label>
+      <select id="service" required>
+        <option value="">-- Choose --</option>
         <option value="Freehand">Freehand</option>
         <option value="Carrot">Carrot</option>
         <option value="Sew in Weave">Sew in Weave</option>
@@ -79,16 +78,17 @@ document.addEventListener("DOMContentLoaded", () => {
         <option value="Relaxer Dark & Lovely">Relaxer Dark & Lovely</option>
       </select>
 
-      <label for="date">Select Date</label>
-      <input type="date" id="date" name="date" required>
+      <label>Select Date</label>
+      <input type="date" id="date" required>
 
-      <label for="time">Select Time</label>
-      <select id="time" name="time" required>
+      <label>Select Time</label>
+      <select id="time" required>
         <option value="">-- Select Time --</option>
       </select>
 
       <button type="submit">Book Appointment</button>
       <p id="statusMessage"></p>
+
     </form>
   </section>
 </div>

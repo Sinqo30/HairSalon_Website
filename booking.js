@@ -2,7 +2,7 @@ const form = document.getElementById("bookingForm");
 const dateInput = document.getElementById("date");
 const timeSelect = document.getElementById("time");
 
-// Generate 1-hour intervals from 07:00 to 19:00
+// Generate 07:00 → 19:00 (can change if your hours differ)
 function generateTimes() {
   let times = [];
   for (let i = 7; i <= 19; i++) {
@@ -12,7 +12,7 @@ function generateTimes() {
   return times;
 }
 
-// When date changes → fetch booked + blocked times
+// Load available times when date is picked
 dateInput.addEventListener("change", async () => {
   const date = dateInput.value;
   if (!date) return;
@@ -20,11 +20,10 @@ dateInput.addEventListener("change", async () => {
   const res = await fetch(`/api/bookings/${date}`);
   const data = await res.json();
 
-  const bookedTimes = data.bookedTimes || [];
-  const blockedTimes = data.blockedTimes || [];
+  const booked = data.bookedTimes || [];
+  const blocked = data.blockedTimes || [];
 
   const allTimes = generateTimes();
-
   timeSelect.innerHTML = `<option value="">-- Select Time --</option>`;
 
   allTimes.forEach((t) => {
@@ -32,7 +31,7 @@ dateInput.addEventListener("change", async () => {
     opt.value = t;
     opt.textContent = t;
 
-    if (bookedTimes.includes(t) || blockedTimes.includes(t)) {
+    if (booked.includes(t) || blocked.includes(t)) {
       opt.disabled = true;
     }
 
@@ -44,7 +43,7 @@ dateInput.addEventListener("change", async () => {
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
 
-  const bookingData = {
+  const data = {
     name: form.name.value,
     email: form.email.value,
     service: form.service.value,
@@ -54,18 +53,18 @@ form.addEventListener("submit", async (e) => {
 
   const res = await fetch("/api/book", {
     method: "POST",
-    headers: {"Content-Type":"application/json"},
-    body: JSON.stringify(bookingData)
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data)
   });
 
   const result = await res.json();
 
   if (!result.success) {
-    alert(result.error || "Booking failed");
+    alert(result.error || "Failed to book");
     return;
   }
 
-  alert("Your appointment has been booked!");
+  alert("Appointment booked successfully!");
   form.reset();
   timeSelect.innerHTML = `<option value="">-- Select Time --</option>`;
 });
