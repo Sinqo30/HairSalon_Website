@@ -1,39 +1,90 @@
-sitemap.xml <?xml version="1.0" encoding="UTF-8"?> 
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ntobeko Beauty Studio</title>
+    <link rel="stylesheet" href="Styling.css">
 
-   <url>
-      <loc>https://www.ntobekobeautystudio.co.za/</loc>
-      <priority>1.0</priority>
-   </url>
+    <!-- Icons -->
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+</head>
+<body>
 
-   <url>
-      <loc>https://www.ntobekobeautystudio.co.za/index.html</loc>
-      <priority>1.0</priority>
-   </url>
+<header>
+    <h1>Ntobeko Beauty Studio</h1>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="services.html">Services</a>
+        <a href="book.html">Book</a>
+        <a href="contact.html">Contact</a>
 
-   <url>
-      <loc>https://www.ntobekobeautystudio.co.za/about.html</loc>
-      <priority>0.8</priority>
-   </url>
+        <a href="https://www.instagram.com/hairbypercy/" target="_blank">
+            <ion-icon class="insta-logo" name="logo-instagram"></ion-icon>
+        </a>
 
-   <url>
-      <loc>https://www.ntobekobeautystudio.co.za/services.html</loc>
-      <priority>0.8</priority>
-   </url>
+        <a href="https://wa.me/2782216006" target="_blank">
+            <ion-icon name="logo-whatsapp"></ion-icon>
+        </a>
+    </nav>
+</header>
 
-   <url>
-      <loc>https://www.ntobekobeautystudio.co.za/contact.html</loc>
-      <priority>0.8</priority>
-   </url>
+<!-- HERO SECTION WITH BACKGROUND IMAGE -->
+<section class="hero" style="background-image: url('https://via.placeholder.com/1200x500?text=Salon+Hero+Image'); background-size: cover; background-position: center; color: white; padding: 150px 20px; text-align: center;">
+    <div class="hero-text">
+        <h2>Beauty. Style. Confidence.</h2>
+        <p>Your trusted salon in Rivonia for braids, wigs, weaves & more.</p>
+        <a href="book.html" class="btn">Book Appointment</a>
+    </div>
+</section>
 
-   <url>
-      <loc>https://www.ntobekobeautystudio.co.za/admin.html</loc>
-      <priority>0.5</priority>
-   </url>
+<!-- SERVICES PREVIEW WITH IMAGES -->
+<section class="services-preview">
+    <h2>Our Services</h2>
 
-   <url>
-      <loc>https://www.ntobekobeautystudio.co.za/book.html</loc>
-      <priority>0.7</priority>
-   </url>
+    <div class="service-container">
+        <div class="service-box">
+            <img src="https://via.placeholder.com/300x200?text=Braids" alt="Braids">
+            <h3>Braids</h3>
+            <p>Professional braiding for all styles.</p>
+        </div>
+        <div class="service-box">
+            <img src="https://via.placeholder.com/300x200?text=Weaves+%26+Wigs" alt="Weaves and Wigs">
+            <h3>Weaves & Wigs</h3>
+            <p>Installations, styling, and maintenance.</p>
+        </div>
+        <div class="service-box">
+            <img src="https://via.placeholder.com/300x200?text=Treatments" alt="Treatments">
+            <h3>Treatments</h3>
+            <p>Nourishing hair care treatments.</p>
+        </div>
+    </div>
 
-</urlset>
+    <a href="services.html" class="btn">View All Services</a>
+</section>
+
+<!-- OPTIONAL PHOTO GALLERY -->
+<section class="gallery">
+    <h2>Gallery</h2>
+    <div class="gallery-container">
+        <img src="https://via.placeholder.com/300x200?text=Salon+1" alt="Salon photo 1">
+        <img src="https://via.placeholder.com/300x200?text=Salon+2" alt="Salon photo 2">
+        <img src="https://via.placeholder.com/300x200?text=Salon+3" alt="Salon photo 3">
+    </div>
+</section>
+
+<section class="location">
+    <h2>Find Us</h2>
+    <p>10 Wessel Road, Rivonia</p>
+    <p>Open Monday – Saturday</p>
+    <p><a href="tel:0782216006">078 221 6006</a></p>
+</section>
+
+<footer>
+    <p>© 2025 Ntobeko Beauty Studio</p>
+    <p><a href="mailto:percydewa@icloud.com">Email Us</a></p>
+</footer>
+
+</body>
+</html>

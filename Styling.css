@@ -1,305 +1,62 @@
-/* Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap');
-
-/* Global */
 body {
-  margin: 0;
-  padding: 0;
-  background-color: #0e0e0e;
-  color: white;
-  font-family: 'Poppins', sans-serif;
-  overflow-x: hidden;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
 }
 
-/* Header / Navigation */
 header {
-  background-color: #000;
-  padding: 20px 50px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 3px solid gold;
-  position: sticky;
-  top: 0;
-  z-index: 10;
+    background: #222;
+    color: white;
+    padding: 10px;
+    text-align: center;
 }
 
-header h1 {
-  font-family: 'Playfair Display', serif;
-  font-size: 32px;
-  color: #d4af37;
-  letter-spacing: 2px;
+header nav a {
+    color: white;
+    margin: 0 10px;
+    text-decoration: none;
 }
 
-nav a {
-  color: white;
-  margin-left: 20px;
-  font-size: 16px;
-  text-decoration: none;
-  transition: 0.3s;
-}
-
-nav a:hover {
-  color: #d4af37;
-}
-
-/* Hero */
 .hero {
-  height: 85vh;
-  background: url('https://images.unsplash.com/photo-1600334129128-92f87b0a3c9d?auto=format&fit=crop&w=1400&q=80') center/cover;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  padding-left: 80px;
-  position: relative;
+    background: url('hero.jpg') no-repeat center center/cover;
+    color: white;
+    padding: 80px 20px;
+    text-align: center;
 }
 
-.hero::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.55);
-  z-index: 0;   
+section {
+    padding: 20px;
 }
 
-/* Put all hero text above overlay */
-.hero h2,
-.hero p,
-.book-btn {
-  position: relative;
-  z-index: 2;   /* text ABOVE overlay */
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background: #222;
+    color: white;
+    text-decoration: none;
+    margin-top: 10px;
 }
 
-.hero h2 {
-  font-family: 'Playfair Display', serif;
-  font-size: 60px;
-  max-width: 600px;
-  color: #ffffff;
-  margin-bottom: 15px;
+.service-box {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin: 10px 0;
 }
 
-.hero p {
-  font-size: 20px;
-  max-width: 450px;
-  color: #d4af37;
-  margin-bottom: 30px;
+.booking-form input, .booking-form select, .booking-form button {
+    display: block;
+    width: 100%;
+    margin: 10px 0;
+    padding: 10px;
 }
 
-.book-btn {
-  padding: 14px 28px;
-  font-size: 18px;
-  background-color: #d4af37;
-  border: none;
-  color: #000;
-  cursor: pointer;
-  border-radius: 4px;
-  transition: 0.3s;
+table {
+    width: 100%;
+    border-collapse: collapse;
 }
 
-.book-btn:hover {
-  background-color: #b9972f;
-}
-
-/* Services */
-.services {
-  padding: 80px 50px;
-  text-align: center;
-}
-
-.services h2 {
-  font-family: 'Playfair Display', serif;
-  font-size: 38px;
-  color: #d4af37;
-  margin-bottom: 40px;
-}
-
-.service-grid {
-  display: flex;
-  justify-content: center;
-  gap: 40px;
-  flex-wrap: wrap;
-}
-
-.service-card {
-  background-color: #1a1a1a;
-  width: 260px;
-  padding: 25px;
-  border-radius: 10px;
-  border: 1px solid #333;
-  transition: 0.3s;
-}
-
-.service-card:hover {
-  transform: translateY(-5px);
-  border-color: #d4af37;
-}
-
-.service-card img {
-  width: 100%;
-  border-radius: 10px;
-  margin-bottom: 15px;
-}
-
-.service-card h3 {
-  font-family: 'Playfair Display', serif;
-  color: #d4af37;
-}
-
-/* Footer */
-footer {
-  background-color: #000;
-  padding: 35px;
-  text-align: center;
-  margin-top: 70px;
-  border-top: 1px solid #333;
-}
-
-footer p {
-  color: #cfcfcf;
-}
-
-.Small-button {
-
-  padding: 7px 14px;
-  font-size: 14px;
-  background-color: #d4af37;
-  border: none;
-  color: #000;
-  cursor: pointer;
-  border-radius: 4px;
-  transition: 0.3s;
-
-}
-
-.Small-button:hover {
-  background-color: #b9972f;
-}
-
-.title {
-
-  font-family: 'Playfair Display', serif;
-  font-size: 32px;
-  color: #d4af37;
-  letter-spacing: 2px;
-  padding-left: 70px ;
-
-}
-
-.details {
-
-  font-size: 20px;
-  max-width: 450px;
-  color: white;
-  margin-bottom: 30px;
-  padding-left: 80px;
-
-}
-
-.details a {
-  color:#d4af37;
-}
-
-/* Booking Form Section */
-.booking-form {
-  width: 90%;
-  max-width: 500px;
-  margin: 80px auto;
-  background: #1a1a1a;
-  padding: 40px;
-  border-radius: 12px;
-  border: 1px solid #333;
-}
-
-.booking-form h2 {
-  text-align: center;
-  font-family: 'Playfair Display', serif;
-  color: #d4af37;
-  margin-bottom: 25px;
-}
-
-/* Form layout */
-#bookingForm {
-  display: flex;
-  flex-direction: column;
-  gap: 18px;       /* 👈 spacing between each field */
-}
-
-/* Labels */
-#bookingForm label {
-  font-size: 15px;
-  color: #d4af37;
-}
-
-/* Inputs + Select dropdowns */
-#bookingForm input,
-#bookingForm select {
-  padding: 12px;
-  font-size: 15px;
-  border-radius: 6px;
-  border: 1px solid #444;
-  background-color: #0e0e0e;
-  color: white;
-  outline: none;
-  transition: 0.3s;
-}
-
-#bookingForm input:focus,
-#bookingForm select:focus {
-  border-color: #d4af37;
-}
-
-/* Button */
-#bookingForm button {
-  margin-top: 10px;
-  padding: 14px;
-  background: #d4af37;
-  border: none;
-  border-radius: 6px;
-  color: #000;
-  cursor: pointer;
-  font-size: 16px;
-  transition: 0.3s;
-}
-
-#bookingForm button:hover {
-  background: #b9972f;
-}
-
-#statusMessage {
-  margin-top: 10px;
-  text-align: center;
-  color: #d4af37;
-}
-
-.contact-box {
-  padding-left: 40px;
-}
-
-.contact-box a {
-  color: #d4af37;
-}
-
-@keyframes transition {
-  
-  from {
-    opacity: 0;
-
-  }
-
-  to {
-    opacity: 1;
-    
-  }
-}
-
-.main {
-  animation: transition 0.5s;
-}
-
-footer a {
-  color: white;
+table, th, td {
+    border: 1px solid #ccc;
+    padding: 10px;
 }

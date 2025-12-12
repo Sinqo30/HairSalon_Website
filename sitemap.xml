@@ -1,40 +1,19 @@
-<?xml version="1.0" encoding="UTF-8"?> 
+<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-
-   <!-- Homepage -->
-   <url>
-      <loc>https://www.ntobekobeautystudio.co.za/</loc>
-      <priority>1.0</priority>
-   </url>
-
-   <!-- About -->
-   <url>
-      <loc>https://www.ntobekobeautystudio.co.za/about.html</loc>
-      <priority>0.8</priority>
-   </url>
-
-   <!-- Services -->
-   <url>
-      <loc>https://www.ntobekobeautystudio.co.za/services.html</loc>
-      <priority>0.8</priority>
-   </url>
-
-   <!-- Contact -->
-   <url>
-      <loc>https://www.ntobekobeautystudio.co.za/contact.html</loc>
-      <priority>0.8</priority>
-   </url>
-
-   <!-- Booking -->
-   <url>
-      <loc>https://www.ntobekobeautystudio.co.za/book.html</loc>
-      <priority>0.7</priority>
-   </url>
-
-   <!-- Admin -->
-   <url>
-      <loc>https://www.ntobekobeautystudio.co.za/admin.html</loc>
-      <priority>0.5</priority>
-   </url>
-
+  <url>
+    <loc>https://www.ntobekobeautystudio.co.za/</loc>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://www.ntobekobeautystudio.co.za/services.html</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.ntobekobeautystudio.co.za/book.html</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.ntobekobeautystudio.co.za/contact.html</loc>
+    <priority>0.8</priority>
+  </url>
 </urlset>
