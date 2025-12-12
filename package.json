@@ -1,13 +1,16 @@
 {
-  "name": "ntobeko-beauty-studio",
+  "name": "ntobeko-booking",
   "version": "1.0.0",
-  "description": "Website for Ntobeko Beauty Studio",
+  "description": "Booking system for Ntobeko Beauty Studio",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
   },
   "dependencies": {
-    "body-parser": "^1.20.0",
-    "express": "^4.18.2"
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "express-session": "^1.17.3",
+    "sqlite3": "^5.1.6"
   }
 }

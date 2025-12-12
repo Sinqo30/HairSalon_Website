@@ -1,49 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Book Appointment | Ntobeko Beauty Studio</title>
-    <link rel="stylesheet" href="Styling.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Book an Appointment | Ntobeko Beauty Studio</title>
+<link rel="stylesheet" href="Styling/homepage.css">
+<script defer src="booking.js"></script>
 </head>
 <body>
-<header>
-    <h1>Ntobeko Beauty Studio</h1>
-    <nav>
-        <a href="index.html">Home</a>
-        <a href="services.html">Services</a>
-        <a href="book.html">Book</a>
-        <a href="contact.html">Contact</a>
-    </nav>
+
+<nav class="navigation">
+  <a href="index.html">Home</a>
+  <a href="services.html">Services</a>
+  <a href="book.html" class="active">Book</a>
+  <a href="contact.html">Contact</a>
+</nav>
+
+<header class="header">
+  <h1>Book an Appointment</h1>
 </header>
 
-<section class="booking">
-    <h2>Book Your Appointment</h2>
-    <form id="bookingForm">
-        <label for="name">Full Name</label>
-        <input type="text" id="name" required>
-
-        <label for="email">Email</label>
-        <input type="email" id="email" required>
-
-        <label for="phone">Phone</label>
-        <input type="tel" id="phone" required>
-
-        <label for="service">Service</label>
-        <select id="service" required>
-            <option value="Braids">Braids</option>
-            <option value="Weaves & Wigs">Weaves & Wigs</option>
-            <option value="Treatments">Treatments</option>
-        </select>
-
-        <label for="date">Preferred Date</label>
-        <input type="date" id="date" required>
-
-        <button type="submit">Submit Booking</button>
-    </form>
-    <p id="statusMsg"></p>
+<section class="booking-form">
+  <h2>Schedule Your Visit</h2>
+  <form id="bookingForm">
+    <label for="name">Full Name</label>
+    <input type="text" id="name" name="name" required>
+    <label for="email">Email</label>
+    <input type="email" id="email" name="email" required>
+    <label for="service">Select Service</label>
+    <select id="service" name="service" required>
+      <option value="">-- Choose a service --</option>
+      <option value="Hair Styling">Hair Styling</option>
+      <option value="Hair Coloring">Hair Coloring</option>
+      <option value="Braiding & Protective Styles">Braiding & Protective Styles</option>
+      <option value="Extensions">Hair Extensions</option>
+      <option value="Special Occasion Styling">Special Occasion Styling</option>
+    </select>
+    <label for="date">Select Date</label>
+    <input type="date" id="date" name="date" required>
+    <label for="time">Select Time</label>
+    <select id="time" name="time" required>
+      <option value="">-- Select Time --</option>
+    </select>
+    <button type="submit">Book Appointment</button>
+    <p id="statusMessage"></p>
+  </form>
 </section>
 
-<script src="booking.js"></script>
+<footer class="footer">
+  <p>Ntobeko Beauty Studio | 10 Wessel Road, Rivonia | 078 221 6006 | percypmmamoe@gmail.com</p>
+</footer>
 </body>
 </html>

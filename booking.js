@@ -1,32 +1,47 @@
-const bookingForm = document.getElementById("bookingForm");
-const statusMsg = document.getElementById("statusMsg");
+const form = document.getElementById("bookingForm");
+const dateInput = document.getElementById("date");
+const timeSelect = document.getElementById("time");
 
-bookingForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
+dateInput.addEventListener("change", async () => {
+  const date = dateInput.value;
+  if(!date) return;
 
-    const booking = {
-        name: document.getElementById("name").value,
-        email: document.getElementById("email").value,
-        phone: document.getElementById("phone").value,
-        service: document.getElementById("service").value,
-        date: document.getElementById("date").value,
-    };
+  const res = await fetch(`/api/bookings/${date}`);
+  const data = await res.json();
+  const bookedTimes = data.bookedTimes || [];
 
-    try {
-        const res = await fetch("/api/bookings", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(booking),
-        });
+  const times = ["09:00","10:00","11:00","12:00","13:00","14:00","15:00","16:00"];
+  timeSelect.innerHTML = `<option value="">-- Select Time --</option>`;
+  times.forEach(t => {
+    const opt = document.createElement("option");
+    opt.value = t;
+    opt.textContent = t;
+    if(bookedTimes.includes(t)) opt.disabled = true;
+    timeSelect.appendChild(opt);
+  });
+});
 
-        if (res.ok) {
-            statusMsg.textContent = "Booking submitted successfully!";
-            bookingForm.reset();
-        } else {
-            statusMsg.textContent = "Failed to submit booking.";
-        }
-    } catch (err) {
-        console.error(err);
-        statusMsg.textContent = "Error connecting to server.";
-    }
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const bookingData = {
+    name: form.name.value,
+    email: form.email.value,
+    service: form.service.value,
+    date: form.date.value,
+    time: form.time.value
+  };
+
+  const res = await fetch("/api/book", {
+    method: "POST",
+    headers: {"Content-Type":"application/json"},
+    body: JSON.stringify(bookingData)
+  });
+
+  if(res.status === 400){
+    alert("This time is already booked.");
+    return;
+  }
+
+  alert("Your appointment has been booked!");
+  form.reset();
 });
