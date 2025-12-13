@@ -12,6 +12,7 @@
     "node": "20.x"
   },
   "dependencies": {
+    "bcryptjs": "^3.0.3",
     "express": "^4.19.2",
     "express-session": "^1.18.2",
     "sqlite3": "^5.1.7"
