@@ -1,16 +1,18 @@
 {
-  "name": "ntobeko-booking",
+  "name": "hairsalon-website",
   "version": "1.0.0",
-  "description": "Booking system for Ntobeko Beauty Studio",
+  "description": "Hair Salon Website backend",
   "main": "server.js",
+  "type": "commonjs",
   "scripts": {
+    "build": "npm install --build-from-source=sqlite3",
     "start": "node server.js"
   },
+  "engines": {
+    "node": "20.x"
+  },
   "dependencies": {
-    "bcryptjs": "^2.4.3",
-    "cors": "^2.8.5",
-    "express": "^4.18.2",
-    "express-session": "^1.17.3",
-    "sqlite3": "^5.1.6"
+    "express": "^4.19.2",
+    "sqlite3": "^5.1.7"
   }
 }
