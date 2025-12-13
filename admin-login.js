@@ -1,24 +1,28 @@
-const form = document.getElementById("loginForm");
-const error = document.getElementById("error");
+const adminLoginForm = document.getElementById("adminLoginForm");
+const loginMessage = document.getElementById("loginMessage");
 
-form.addEventListener("submit", async (e) => {
-  e.preventDefault();
+adminLoginForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
 
-  const username = document.getElementById("username").value;
-  const password = document.getElementById("password").value;
+    const credentials = {
+        username: adminLoginForm.username.value,
+        password: adminLoginForm.password.value
+    };
 
-  const res = await fetch("/api/admin-login", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ username, password })
-  });
+    try {
+        const response = await fetch("/api/admin-login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(credentials)
+        });
 
-  const result = await res.json();
-
-  if (!result.success) {
-    error.textContent = "Invalid username or password.";
-    return;
-  }
-
-  window.location.href = "/admin.html";
+        if (response.ok) {
+            window.location.href = "/admin.html";
+        } else {
+            loginMessage.textContent = "Invalid username or password.";
+        }
+    } catch (err) {
+        console.error(err);
+        loginMessage.textContent = "Login error.";
+    }
 });

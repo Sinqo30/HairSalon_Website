@@ -1,29 +1,44 @@
-const bookingsTable = document.getElementById("bookingsTable").querySelector("tbody");
-const blockedTable = document.getElementById("blockedTable").querySelector("tbody");
-const blockForm = document.getElementById("blockForm");
-const blockTimeSelect = document.getElementById("blockTime");
-const logoutBtn = document.getElementById("logoutBtn");
+// LOGIN
+const loginForm = document.getElementById("loginForm");
 
-function generateAdminTimes() {
-  blockTimeSelect.innerHTML = `<option value="">-- All Day --</option>`;
-  for (let h = 7; h <= 19; h++) {
-    const t = String(h).padStart(2, "0") + ":00";
-    const opt = document.createElement("option");
-    opt.value = t;
-    opt.textContent = t;
-    blockTimeSelect.appendChild(opt);
-  }
-}
-generateAdminTimes();
+if (loginForm) {
+  loginForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
 
-async function loadBookings() {
-  const res = await fetch("/api/bookings", {
-    credentials: "include"
+    const username = document.getElementById("username").value;
+    const password = document.getElementById("password").value;
+
+    const res = await fetch("/api/admin-login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      body: JSON.stringify({ username, password })
+    });
+
+    const data = await res.json();
+
+    if (data.success) {
+      window.location.href = "admin.html";
+    } else {
+      document.getElementById("error").innerText = "Invalid login.";
+    }
   });
-  const bookings = await res.json();
-  bookingsTable.innerHTML = "";
+}
 
-  bookings.forEach(b => {
+// LOAD BOOKINGS
+async function loadBookings() {
+  const res = await fetch("/api/bookings", { credentials: "include" });
+
+  if (!res.ok) {
+    document.body.innerHTML = "<h2 style='color:red;'>Not Authorized</h2>";
+    return;
+  }
+
+  const bookings = await res.json();
+  const tbody = document.querySelector("#bookingsTable tbody");
+  tbody.innerHTML = "";
+
+  bookings.forEach((b) => {
     const tr = document.createElement("tr");
     tr.innerHTML = `
       <td>${b.id}</td>
@@ -32,79 +47,22 @@ async function loadBookings() {
       <td>${b.service}</td>
       <td>${b.date}</td>
       <td>${b.time}</td>
-      <td><button onclick="deleteBooking(${b.id})">Delete</button></td>
     `;
-    bookingsTable.appendChild(tr);
+    tbody.appendChild(tr);
   });
 }
 
-async function loadBlocked() {
-  const res = await fetch("/api/blocked", {
-    credentials: "include"
-  });
-  const blocks = await res.json();
-  blockedTable.innerHTML = "";
+if (document.querySelector("#bookingsTable")) loadBookings();
 
-  blocks.forEach(b => {
-    const tr = document.createElement("tr");
-    tr.innerHTML = `
-      <td>${b.id}</td>
-      <td>${b.date}</td>
-      <td>${b.time || "All Day"}</td>
-      <td><button onclick="unblock(${b.id})">Unblock</button></td>
-    `;
-    blockedTable.appendChild(tr);
+// LOGOUT
+const logoutBtn = document.getElementById("logoutBtn");
+
+if (logoutBtn) {
+  logoutBtn.addEventListener("click", async () => {
+    await fetch("/api/logout", {
+      method: "POST",
+      credentials: "include"
+    });
+    window.location.href = "admin-login.html";
   });
 }
-
-async function deleteBooking(id) {
-  if (!confirm("Delete this booking?")) return;
-
-  await fetch("/api/delete-booking", {
-    method: "POST",
-    credentials: "include",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ id })
-  });
-
-  loadBookings();
-}
-
-blockForm.addEventListener("submit", async (e) => {
-  e.preventDefault();
-
-  const date = document.getElementById("blockDate").value;
-  const time = document.getElementById("blockTime").value;
-
-  await fetch("/api/block", {
-    method: "POST",
-    credentials: "include",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ date, time })
-  });
-
-  loadBlocked();
-});
-
-async function unblock(id) {
-  await fetch("/api/unblock", {
-    method: "POST",
-    credentials: "include",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ id })
-  });
-
-  loadBlocked();
-}
-
-logoutBtn.addEventListener("click", async () => {
-  await fetch("/api/logout", {
-    method: "POST",
-    credentials: "include"
-  });
-
-  window.location.href = "/admin-login.html";
-});
-
-loadBookings();
-loadBlocked();
