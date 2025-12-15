@@ -85,6 +85,33 @@ app.get("/api/bookings", mustBeLoggedIn, (req, res) => {
   });
 });
 
+// New endpoint to fetch booked and blocked times for a specific date
+app.get("/api/bookings/:date", (req, res) => {
+  const date = req.params.date;
+
+  db.all("SELECT time FROM bookings WHERE date = ?", [date], (err, rows) => {
+    const bookedTimes = rows.map(r => r.time);
+
+    db.all("SELECT time FROM blocked_slots WHERE date = ?", [date], (err2, rows2) => {
+      const blockedTimes = rows2.map(r => r.time).filter(Boolean); // remove nulls
+      res.json({ bookedTimes, blockedTimes });
+    });
+  });
+});
+
+app.post("/api/book", (req, res) => {
+  const { name, email, service, date, time } = req.body;
+
+  db.run(
+    "INSERT INTO bookings (name, email, service, date, time) VALUES (?, ?, ?, ?, ?)",
+    [name, email, service, date, time],
+    function(err) {
+      if (err) return res.json({ success: false, error: "Failed to book" });
+      res.json({ success: true });
+    }
+  );
+});
+
 app.post("/api/delete-booking", mustBeLoggedIn, (req, res) => {
   db.run("DELETE FROM bookings WHERE id = ?", [req.body.id], () => {
     res.json({ success: true });

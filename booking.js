@@ -1,6 +1,7 @@
 const form = document.getElementById("bookingForm");
 const dateInput = document.getElementById("date");
 const timeSelect = document.getElementById("time");
+const statusMessage = document.getElementById("statusMessage");
 
 // Generate 1-hour intervals from 07:00 to 19:00
 function generateTimes() {
@@ -12,10 +13,27 @@ function generateTimes() {
   return times;
 }
 
+// Set minimum date to today
+const today = new Date().toISOString().split("T")[0];
+dateInput.setAttribute("min", today);
+
+// Prevent Sunday bookings & populate time dropdown
+document.addEventListener("DOMContentLoaded", () => {
+  timeSelect.innerHTML = '<option value="">-- Select Time --</option>';
+});
+
 // When date changes → fetch booked + blocked times
 dateInput.addEventListener("change", async () => {
   const date = dateInput.value;
   if (!date) return;
+
+  const selectedDay = new Date(date + "T00:00:00").getDay();
+  if (selectedDay === 0) {
+    alert("Ntobeko Beauty Studio is closed on Sundays.");
+    dateInput.value = "";
+    timeSelect.innerHTML = '<option value="">-- Select Time --</option>';
+    return;
+  }
 
   const res = await fetch(`/api/bookings/${date}`);
   const data = await res.json();
@@ -24,19 +42,27 @@ dateInput.addEventListener("change", async () => {
   const blockedTimes = data.blockedTimes || [];
 
   const allTimes = generateTimes();
+  const now = new Date();
 
   timeSelect.innerHTML = `<option value="">-- Select Time --</option>`;
 
   allTimes.forEach((t) => {
-    const opt = document.createElement("option");
-    opt.value = t;
-    opt.textContent = t;
+    const [hour, minute] = t.split(":").map(Number);
+    const selectedDateTime = new Date(date + "T" + t + ":00");
 
-    if (bookedTimes.includes(t) || blockedTimes.includes(t)) {
-      opt.disabled = true;
+    const option = document.createElement("option");
+    option.value = t;
+    option.textContent = t;
+
+    if (
+      bookedTimes.includes(t) ||
+      blockedTimes.includes(t) ||
+      selectedDateTime < now
+    ) {
+      option.disabled = true;
     }
 
-    timeSelect.appendChild(opt);
+    timeSelect.appendChild(option);
   });
 });
 
@@ -54,18 +80,21 @@ form.addEventListener("submit", async (e) => {
 
   const res = await fetch("/api/book", {
     method: "POST",
-    headers: {"Content-Type":"application/json"},
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify(bookingData)
   });
 
   const result = await res.json();
 
   if (!result.success) {
-    alert(result.error || "Booking failed");
+    statusMessage.textContent = result.error || "Booking failed";
+    statusMessage.style.color = "red";
     return;
   }
 
-  alert("Your appointment has been booked!");
+  statusMessage.textContent = "Your appointment has been booked!";
+  statusMessage.style.color = "green";
+
   form.reset();
   timeSelect.innerHTML = `<option value="">-- Select Time --</option>`;
 });
