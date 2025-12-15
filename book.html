@@ -11,10 +11,12 @@
 
 <script defer src="booking.js"></script>
 
-<!-- Prevent Sunday bookings -->
 <script>
 document.addEventListener("DOMContentLoaded", () => {
   const dateInput = document.getElementById("date");
+  const timeSelect = document.getElementById("time");
+
+  // Prevent Sunday bookings
   dateInput.addEventListener("change", () => {
     const date = new Date(dateInput.value + "T00:00:00");
     if (date.getDay() === 0) {
@@ -22,6 +24,17 @@ document.addEventListener("DOMContentLoaded", () => {
       dateInput.value = "";
     }
   });
+
+  // Populate time dropdown (07:00 – 19:00 SAST)
+  timeSelect.innerHTML = '<option value="">-- Select Time --</option>';
+
+  for (let hour = 7; hour <= 19; hour++) {
+    const time = hour.toString().padStart(2, "0") + ":00";
+    const option = document.createElement("option");
+    option.value = time;
+    option.textContent = time;
+    timeSelect.appendChild(option);
+  }
 });
 </script>
 
@@ -83,9 +96,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <input type="date" id="date" name="date" required>
 
       <label for="time">Select Time</label>
-      <select id="time" name="time" required>
-        <option value="">-- Select Time --</option>
-      </select>
+      <select id="time" name="time" required></select>
 
       <button type="submit">Book Appointment</button>
       <p id="statusMessage"></p>
@@ -95,9 +106,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
 <footer>
   <p>© 2025 Ntobeko Beauty Studio</p>
-  <p>10 Wessel Road, Rivonia |
-     <a href="tel:0782216006">078 221 6006</a> |
-     <a href="mailto:percypmmamoe@gmail.com">percypmmamoe@gmail.com</a>
+  <p>
+    10 Wessel Road, Rivonia |
+    <a href="tel:0782216006">078 221 6006</a> |
+    <a href="mailto:percypmmamoe@gmail.com">percypmmamoe@gmail.com</a>
   </p>
 </footer>
 
