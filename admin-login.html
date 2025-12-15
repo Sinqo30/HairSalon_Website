@@ -7,6 +7,7 @@
 <link rel="stylesheet" href="admin.css">
 <script defer src="admin-login.js"></script>
 </head>
+
 <body>
 <header>
   <h1>Admin Login</h1>
@@ -14,13 +15,24 @@
 
 <div class="content">
   <form id="loginForm">
+
     <label>Username:</label>
     <input type="text" id="username" name="username" required>
+
     <label>Password:</label>
     <input type="password" id="password" name="password" required>
+
+    <!-- SHOW PASSWORD -->
+    <div style="margin: 8px 0;">
+      <input type="checkbox" id="togglePassword">
+      <label for="togglePassword">Show password</label>
+    </div>
+
     <button type="submit">Login</button>
+
     <p id="error" style="color:red;"></p>
   </form>
 </div>
+
 </body>
 </html>
