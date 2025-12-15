@@ -4,51 +4,102 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Book an Appointment | Ntobeko Beauty Studio</title>
-<link rel="stylesheet" href="Styling/homepage.css">
+<link rel="stylesheet" href="Styling.css">
+
+<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
 <script defer src="booking.js"></script>
+
+<!-- Prevent Sunday bookings -->
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const dateInput = document.getElementById("date");
+  dateInput.addEventListener("change", () => {
+    const date = new Date(dateInput.value + "T00:00:00");
+    if (date.getDay() === 0) {
+      alert("Ntobeko Beauty Studio is closed on Sundays.");
+      dateInput.value = "";
+    }
+  });
+});
+</script>
+
 </head>
 <body>
 
-<nav class="navigation">
-  <a href="index.html">Home</a>
-  <a href="services.html">Services</a>
-  <a href="book.html" class="active">Book</a>
-  <a href="contact.html">Contact</a>
-</nav>
+<header>
+  <h1>Ntobeko Beauty Studio</h1>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="services.html">Services</a>
+    <a href="book.html">Book</a>
+    <a href="contact.html">Contact</a>
 
-<header class="header">
-  <h1>Book an Appointment</h1>
+    <a href="https://www.instagram.com/hairbypercy/" target="_blank">
+      <ion-icon class="insta-logo" name="logo-instagram"></ion-icon>
+    </a>
+
+    <a href="https://wa.me/2782216006" target="_blank">
+      <ion-icon name="logo-whatsapp"></ion-icon>
+    </a>
+  </nav>
 </header>
 
-<section class="booking-form">
-  <h2>Schedule Your Visit</h2>
-  <form id="bookingForm">
-    <label for="name">Full Name</label>
-    <input type="text" id="name" name="name" required>
-    <label for="email">Email</label>
-    <input type="email" id="email" name="email" required>
-    <label for="service">Select Service</label>
-    <select id="service" name="service" required>
-      <option value="">-- Choose a service --</option>
-      <option value="Hair Styling">Hair Styling</option>
-      <option value="Hair Coloring">Hair Coloring</option>
-      <option value="Braiding & Protective Styles">Braiding & Protective Styles</option>
-      <option value="Extensions">Hair Extensions</option>
-      <option value="Special Occasion Styling">Special Occasion Styling</option>
-    </select>
-    <label for="date">Select Date</label>
-    <input type="date" id="date" name="date" required>
-    <label for="time">Select Time</label>
-    <select id="time" name="time" required>
-      <option value="">-- Select Time --</option>
-    </select>
-    <button type="submit">Book Appointment</button>
-    <p id="statusMessage"></p>
-  </form>
-</section>
+<div class="main">
+  <center><h1 class="title">Book an Appointment</h1></center>
 
-<footer class="footer">
-  <p>Ntobeko Beauty Studio | 10 Wessel Road, Rivonia | 078 221 6006 | percypmmamoe@gmail.com</p>
+  <section class="booking-form">
+    <h2>Schedule Your Visit</h2>
+
+    <form id="bookingForm">
+
+      <label for="name">Full Name</label>
+      <input type="text" id="name" name="name" required>
+
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" required>
+
+      <label for="service">Select Service</label>
+      <select id="service" name="service" required>
+        <option value="">-- Choose a service --</option>
+        <option value="Freehand">Freehand</option>
+        <option value="Carrot">Carrot</option>
+        <option value="Sew in Weave">Sew in Weave</option>
+        <option value="Wig">Wig</option>
+        <option value="Kid Cornrows">Kid Cornrows</option>
+        <option value="Kid Braids">Kid Braids</option>
+        <option value="Goddess">Goddess</option>
+        <option value="Knotless Braids">Knotless Braids</option>
+        <option value="Bhohoman Braids">Bhohoman Braids</option>
+        <option value="Passion Twist">Passion Twist</option>
+        <option value="Treatment">Treatment</option>
+        <option value="Mizani Treatment">Mizani Treatment</option>
+        <option value="Wig Lines">Wig Lines</option>
+        <option value="Relaxer Dark & Lovely">Relaxer Dark & Lovely</option>
+      </select>
+
+      <label for="date">Select Date</label>
+      <input type="date" id="date" name="date" required>
+
+      <label for="time">Select Time</label>
+      <select id="time" name="time" required>
+        <option value="">-- Select Time --</option>
+      </select>
+
+      <button type="submit">Book Appointment</button>
+      <p id="statusMessage"></p>
+    </form>
+  </section>
+</div>
+
+<footer>
+  <p>© 2025 Ntobeko Beauty Studio</p>
+  <p>10 Wessel Road, Rivonia |
+     <a href="tel:0782216006">078 221 6006</a> |
+     <a href="mailto:percypmmamoe@gmail.com">percypmmamoe@gmail.com</a>
+  </p>
 </footer>
+
 </body>
 </html>
